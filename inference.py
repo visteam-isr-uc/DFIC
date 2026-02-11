@@ -38,8 +38,7 @@ if __name__ == '__main__':
 
     
     args = parse_args()
-    
-    
+
     
     if (args.image_path is None) and (args.image_list_path is None):
         print('One of the arguments: --image_path or --image_list_path, must be defined.')
@@ -128,37 +127,38 @@ if __name__ == '__main__':
                 final_preds = np.empty(26)
                 final_preds[:] = np.nan
                 face_det = False
-
-        
-            im_cv_bgr = cv2.imread(im_p)
-      
-            _, prep_crop_image = face_scaled_crop_processor.get_image_scaled(im_cv_bgr)
-            if prep_crop_image is None:
-                print('Unable to detect a face in the image file: {}.'.format(im_p))
-                final_preds = np.empty(26)
-                final_preds[:] = np.nan
-                face_det = False
-                im_pres = True
                 
             else:
-                _, final_preds = icao_model.process(prep_crop_image)
-                face_det = True
-                im_pres = True
+                im_cv_bgr = cv2.imread(im_p)
+                _, prep_crop_image = face_scaled_crop_processor.get_image_scaled(im_cv_bgr)
+                
+                if prep_crop_image is None:
+                    print('Unable to detect a face in the image file: {}.'.format(im_p))
+                    final_preds = np.empty(26)
+                    final_preds[:] = np.nan
+                    face_det = False
+                    im_pres = True
+                    
+                else:
+                    _, final_preds = icao_model.process(prep_crop_image)
+                    face_det = True
+                    im_pres = True
                 
             predictions.append(final_preds)
             im_paths.append(im_p)
             face_detected.append(face_det)
             im_found.append(im_pres)
                 
-        predictions_np = np.stack(predictions)
-        df_res = pd.DataFrame({'im_path': im_paths,
-                               'im_found': im_found,
-                               'face_detected': face_detected})
-                
-        dict_scos = {names[i]: 1-predictions_np[:,i] for i in range(len(names))}
-        df_res = pd.concat([df_res, pd.DataFrame(dict_scos)], axis = 1)
-        
-        df_res.to_csv(args.output_csv_path, index = False)
+        if len(predictions) > 0:
+            predictions_np = np.stack(predictions)
+            df_res = pd.DataFrame({'im_path': im_paths,
+                                   'im_found': im_found,
+                                   'face_detected': face_detected})
+                    
+            dict_scos = {names[i]: 1-predictions_np[:,i] for i in range(len(names))}
+            df_res = pd.concat([df_res, pd.DataFrame(dict_scos)], axis = 1)
+            
+            df_res.to_csv(args.output_csv_path, index = False)
         
 
             
