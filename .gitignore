@@ -1,0 +1,8 @@
+data/DFIC/*
+!data/DFIC/README.md
+data/TONO/
+method/__pycache__/
+method/runs/
+method/models/*
+!method/models/architecture/DeepLabV3_ICAO_SE_lite.py
+dfic_venv/
