@@ -80,13 +80,13 @@ python evaluate_model_DFIC.py
 ## License and Citation
 The trained models available in this repository are derived from the DFIC dataset, which is licensed for non-commercial use only. Therefore, the trained models, are RESTRICTED to **non-commercial research and educational purposes** under the [license](LICENSE.md). If you use our codebase, method, models or dataset, please cite our work:
 ```
-@misc{DFIC,
-  title={DFIC: Towards a balanced facial image dataset for automatic ICAO compliance verification},
-  author={Gonçalves, Nuno and Nunes, Diogo and Guerra, Carla and Marcos, João},
-  year={2026},
-      eprint={},
+@misc{gonçalves2026dficbalancedfacialimage,
+      title={DFIC: Towards a balanced facial image dataset for automatic ICAO compliance verification}, 
+      author={Nuno Gonçalves and Diogo Nunes and Carla Guerra and João Marcos},
+      year={2026},
+      eprint={2602.10985},
       archivePrefix={arXiv},
       primaryClass={cs.CV},
-      url={}, 
+      url={https://arxiv.org/abs/2602.10985}, 
 }
 ```
